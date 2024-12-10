@@ -65,6 +65,6 @@ jobs:
           PUB=$(echo $PUB | tr -d '[:space:]' | sed 's/[=]*$//')
         
           cosign sign --yes --key $KEY \
-            ghcr.io/${{ github.repository }}:latest \ 
             -a dev.cosignproject.cosign/sigalg=ECDSA_P256_SHA256 \
-            -a dev.cosignproject.cosign/pub=$PUB
+            -a dev.cosignproject.cosign/pub=$PUB \
+            ghcr.io/${{ github.repository }}:latest
