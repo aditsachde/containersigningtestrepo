@@ -50,7 +50,6 @@ jobs:
         run: |
           docker pull $UPSTREAM
           docker tag $UPSTREAM $TAG
-          # docker tag $UPSTREAM $TAG_DIGEST
 
       # Step 5: Setup authentication keys
       - uses: 'google-github-actions/auth@v2'
