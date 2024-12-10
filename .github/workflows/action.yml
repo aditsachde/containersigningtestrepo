@@ -55,6 +55,8 @@ jobs:
         with:
           workload_identity_provider: 'projects/556654538773/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
 
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
 
       # Step 6: Sign the image with Cosign
       - name: Sign Image with Cosign
