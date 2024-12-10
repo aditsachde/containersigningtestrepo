@@ -75,4 +75,3 @@ jobs:
       - name: Push Image
         run: |
           docker push $TAG
-          docker push $TAG_DIGEST
