@@ -33,6 +33,9 @@ jobs:
         id: read-digest
         run: |
           echo "DIGEST=$(cat digest)" >> $GITHUB_ENV
+          echo "UPSTREAM=ghcr.io/aditsachde/confidential-witness@sha256:${DIGEST}" >> $GITHUB_ENV
+          echo "TAG=ghcr.io/${{ github.repository }}:latest" >> $GITHUB_ENV
+          echo "TAG_DIGEST=ghcr.io/${{ github.repository }}@sha256:${DIGEST}" >> $GITHUB_ENV
 
       # Step 3: Verify the image using the hash
       - name: Verify Image with Cosign
@@ -44,11 +47,9 @@ jobs:
       # Step 4: Tag the image
       - name: Tag Image
         run: |
-          IMAGE_TO_TAG="ghcr.io/aditsachde/confidential-witness@sha256:${DIGEST}"
-          NEW_TAG="ghcr.io/${{ github.repository }}:latest"
-          docker pull $IMAGE_TO_TAG
-          docker tag $IMAGE_TO_TAG $NEW_TAG
-          docker push $NEW_TAG
+          docker pull $UPSTREAM
+          docker tag $UPSTREAM $TAG
+          docker tag $UPSTREAM $TAG_DIGEST
 
       # Step 5: Setup authentication keys
       - uses: 'google-github-actions/auth@v2'
@@ -67,4 +68,10 @@ jobs:
           cosign sign --yes --key $KEY \
             -a dev.cosignproject.cosign/sigalg=ECDSA_P256_SHA256 \
             -a dev.cosignproject.cosign/pub=$PUB \
-            ghcr.io/${{ github.repository }}:latest
+            $TAG_DIGEST
+
+      # Step 7: Push the image
+      - name: Push Image
+        run: |
+          docker push $TAG
+          docker push $TAG_DIGEST
