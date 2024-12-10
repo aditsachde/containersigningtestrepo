@@ -45,7 +45,7 @@ jobs:
       - name: Tag Image
         run: |
           IMAGE_TO_TAG="ghcr.io/aditsachde/confidential-witness@sha256:${DIGEST}"
-          NEW_TAG="ghcr.io/aditsachde/containersigningtestrepo:latest"
+          NEW_TAG="ghcr.io/${{ github.repository }}:latest"
           docker pull $IMAGE_TO_TAG
           docker tag $IMAGE_TO_TAG $NEW_TAG
           docker push $NEW_TAG
@@ -56,7 +56,15 @@ jobs:
           workload_identity_provider: 'projects/556654538773/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
 
       # Step 6: Sign the image with Cosign
+      # See: https://codelabs.developers.google.com/signed-container-image-codelab#2
       - name: Sign Image with Cosign
         run: |
-          cosign sign --yes --key gcpkms://projects/mineral-oarlock-443418-j9/locations/us-central1/keyRings/signing-keyring/cryptoKeys/signing-key2/cryptoKeyVersions/1 \
-            ghcr.io/aditsachde/containersigningtestrepo:latest
+          KEY="gcpkms://projects/mineral-oarlock-443418-j9/locations/us-central1/keyRings/signing-keyring/cryptoKeys/signing-key2/cryptoKeyVersions/1"
+          cosign public-key --key $KEY > pub.pem
+          PUB=$(cat pub.pem | openssl base64)
+          PUB=$(echo $PUB | tr -d '[:space:]' | sed 's/[=]*$//')
+        
+          cosign sign --yes --key $KEY \
+            ghcr.io/${{ github.repository }}:latest \ 
+            -a dev.cosignproject.cosign/sigalg=ECDSA_P256_SHA256 \
+            -a dev.cosignproject.cosign/pub=$PUB
