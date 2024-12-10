@@ -32,11 +32,12 @@ jobs:
       - name: Read Digest File
         id: read-digest
         run: |
-          DIGEST=$(cat digest)
+          MANIFEST_DIGEST=$(cat digest)
+          DIGEST=$(docker manifest inspect ghcr.io/aditsachde/confidential-witness@sha256:${DIGEST} | jq -r '.manifests[] | select(.platform.architecture=="amd64" and .platform.os=="linux").digest')
           echo "DIGEST=$DIGEST" >> $GITHUB_ENV
-          echo "UPSTREAM=ghcr.io/aditsachde/confidential-witness@sha256:${DIGEST}" >> $GITHUB_ENV
+          echo "UPSTREAM=ghcr.io/aditsachde/confidential-witness@${DIGEST}" >> $GITHUB_ENV
           echo "TAG=ghcr.io/${{ github.repository }}:latest" >> $GITHUB_ENV
-          echo "TAG_DIGEST=ghcr.io/${{ github.repository }}@sha256:${DIGEST}" >> $GITHUB_ENV
+          echo "TAG_DIGEST=ghcr.io/${{ github.repository }}@${DIGEST}" >> $GITHUB_ENV
 
       # Step 3: Verify the image using the hash
       - name: Verify Image with Cosign
