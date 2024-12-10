@@ -45,7 +45,7 @@ jobs:
       - name: Tag Image
         run: |
           IMAGE_TO_TAG="ghcr.io/aditsachde/confidential-witness@sha256:${DIGEST}"
-          NEW_TAG="ghcr.io/aditsachde/confidential-witness:latest"
+          NEW_TAG="ghcr.io/aditsachde/containersigningtestrepo:latest"
           docker pull $IMAGE_TO_TAG
           docker tag $IMAGE_TO_TAG $NEW_TAG
           docker push $NEW_TAG
@@ -60,4 +60,4 @@ jobs:
       - name: Sign Image with Cosign
         run: |
           cosign sign --yes --key gcpkms://projects/mineral-oarlock-443418-j9/locations/us-central1/keyRings/signing-keyring/cryptoKeys/signing-key/cryptoKeyVersions/1 \
-            ghcr.io/aditsachde/confidential-witness:latest
+            ghcr.io/aditsachde/containersigningtestrepo:latest
