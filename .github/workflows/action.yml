@@ -58,5 +58,5 @@ jobs:
       # Step 6: Sign the image with Cosign
       - name: Sign Image with Cosign
         run: |
-          cosign sign --yes --key gcpkms://projects/mineral-oarlock-443418-j9/locations/us-central1/keyRings/signing-keyring/cryptoKeys/signing-key/cryptoKeyVersions/1 \
+          cosign sign --yes --key gcpkms://projects/mineral-oarlock-443418-j9/locations/us-central1/keyRings/signing-keyring/cryptoKeys/signing-key2/cryptoKeyVersions/1 \
             ghcr.io/aditsachde/containersigningtestrepo:latest
