@@ -41,7 +41,7 @@ jobs:
       # Step 3: Verify the image using the hash
       - name: Verify Image with Cosign
         run: |
-          cosign verify ghcr.io/aditsachde/confidential-witness@sha256:${MANIFEST_DIGEST} \
+          cosign verify ghcr.io/aditsachde/confidential-witness@sha256:${DIGEST} \
             --certificate-identity="https://github.com/aditsachde/confidential-witness/.github/workflows/build.yml@refs/heads/main" \
             --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 
