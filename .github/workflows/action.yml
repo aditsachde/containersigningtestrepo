@@ -33,7 +33,7 @@ jobs:
         id: read-digest
         run: |
           MANIFEST_DIGEST=$(cat digest)
-          DIGEST=$(docker manifest inspect ghcr.io/aditsachde/confidential-witness@sha256:${DIGEST} | jq -r '.manifests[] | select(.platform.architecture=="amd64" and .platform.os=="linux").digest')
+          DIGEST=$(docker manifest inspect ghcr.io/aditsachde/confidential-witness@sha256:${MANIFEST_DIGEST} | jq -r '.manifests[] | select(.platform.architecture=="amd64" and .platform.os=="linux").digest')
           echo "MANIFEST_DIGEST=$MANIFEST_DIGEST" >> $GITHUB_ENV
           echo "DIGEST=$DIGEST" >> $GITHUB_ENV
           echo "UPSTREAM=ghcr.io/aditsachde/confidential-witness@${DIGEST}" >> $GITHUB_ENV
