@@ -32,7 +32,7 @@ jobs:
       - name: Read Digest File
         id: read-digest
         run: |
-          DIGEST=${cat digest)
+          DIGEST=$(cat digest)
           echo "DIGEST=$DIGEST" >> $GITHUB_ENV
           echo "UPSTREAM=ghcr.io/aditsachde/confidential-witness@sha256:${DIGEST}" >> $GITHUB_ENV
           echo "TAG=ghcr.io/${{ github.repository }}:latest" >> $GITHUB_ENV
