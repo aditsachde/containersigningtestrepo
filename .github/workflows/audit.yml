@@ -18,4 +18,4 @@ jobs:
 
       - run: |
           gcloud kms keys versions get-public-key projects/mineral-oarlock-443418-j9/locations/us-central1/keyRings/witness-keyring3/cryptoKeys/witness-key3/cryptoKeyVersions/1
-          gcloud logging read "logName=projects/mineral-oarlock-443418-j9/logs/cloudaudit.googleapis.com%2Factivity" --freshness="400d" > /dev/null
+          gcloud logging read --project mineral-oarlock-443418-j9 "logName=projects/mineral-oarlock-443418-j9/logs/cloudaudit.googleapis.com%2Factivity" --freshness="400d" > /dev/null
