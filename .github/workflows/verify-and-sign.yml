@@ -61,7 +61,7 @@ jobs:
       - name: Sign Image with Cosign
         run: |
           KEY="gcpkms://projects/mineral-oarlock-443418-j9/locations/us-central1/keyRings/signing-keyring/cryptoKeys/signing-key2/cryptoKeyVersions/1"
-          cosign public-key --key $KEY > pub.pem
+          cosign public-key --key $KEY | tee pub.pem
           PUB=$(cat pub.pem | openssl base64)
           PUB=$(echo $PUB | tr -d '[:space:]' | sed 's/[=]*$//')
         
