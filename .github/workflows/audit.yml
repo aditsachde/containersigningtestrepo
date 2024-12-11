@@ -1,0 +1,17 @@
+name: Build and Sign Container
+on: [push]
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      id-token: write # needed for signing the images with GitHub OIDC Token
+
+    name: build-image
+    steps:
+      - run: |
+          gcloud kms keys versions get-public-key projects/mineral-oarlock-443418-j9/locations/us-central1/keyRings/witness-keyring3/cryptoKeys/witness-key3/cryptoKeyVersions/1
+
+          gcloud logging read "logName=projects/mineral-oarlock-443418-j9/logs/cloudaudit.googleapis.com%2Factivity" --freshness="400d" > /dev/null
