@@ -6,8 +6,11 @@ on:
       - main
 
 jobs:
-  verify-and-sign:
+  publish-audit-logs:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+
     steps:
       - uses: 'google-github-actions/auth@v2'
         with:
